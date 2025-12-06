@@ -1,21 +1,24 @@
-// RED FLAGS 🚩🚩🚩- patrones de posible estafa - lista de chequeo
-const redFlags = [
-	"Solicitan dinero por adelantado",
-	"Prometen salarios muy altos",
-	"Te envían un cheque para comprar equipo/software",
-	"Piden datos bancarios antes de contactarte",
-	"Email personal (gmail,yahoo) en vez del corporativo",
-	"Promesas poco realistas (trabajar poco, ganar mucho)",
-	"Solicitan info sensible en la primer entrevista",
-	"No tienen pagina web oficial",
-	"No tienen presencia en LinkedIn o info poco creíble",
-	"Oferta recibida sin haber aplicado",
-];
+/* RED FLAGS 🚩🚩🚩- lista de chequeo
+"Solicitan dinero por adelantado",
+"Prometen salarios muy altos",
+"Te envían un cheque para comprar equipo/software",
+"Piden datos bancarios antes de contactarte",
+"Email personal (gmail,yahoo) en vez del corporativo",
+"Promesas poco realistas (trabajar poco, ganar mucho)",
+"Solicitan info sensible en la primer entrevista",
+"No tienen pagina web oficial",
+"No tienen presencia en LinkedIn o info poco creíble",
+"Oferta recibida sin haber aplicado",
+*/
+
+// MENSAJE DE INICIO
+console.log("🔍 ANTI SCAM cargado correctamente.");
+console.log("Pulsa 'Analizar Oferta' para empezar.\n");
 
 // guarda el historial de analisis de la sesion
 let historialAnalisis = [];
 
-// cuenta cuantos analisis se hicieron
+// cuenta cuantos analisis se hicieron en la sesion
 let contadorAnalisis = 0;
 
 // FUNCION 1 : Inicia el analisis (junta los datos)
@@ -205,19 +208,19 @@ function mostrarResultados(puntos, alertas) {
 	let nivelRiesgo;
 
 	if (puntos >= 60) {
-        // 60-185 puntos = ALERTA MÁXIMA
+		// 60-185 puntos = ALERTA MÁXIMA
 		conclusion = "🚨 ALERTA MÁXIMA - POSIBLE ESTAFA";
 		nivelRiesgo = "MUY ALTO";
 	} else if (puntos >= 40) {
-        // 40-59 puntos = SOSPECHOSO
+		// 40-59 puntos = SOSPECHOSO
 		conclusion = "⚠️ SOSPECHOSO - Procede con extrema cautela";
 		nivelRiesgo = "ALTO";
 	} else if (puntos >= 20) {
-        // 20-39 puntos = ADVERTENCIA
+		// 20-39 puntos = ADVERTENCIA
 		conclusion = "⚡ ADVERTENCIA - Verifica más información";
 		nivelRiesgo = "MEDIO";
 	} else {
-         // 0-19 puntos = APARENTEMENTE SEGURO
+		// 0-19 puntos = APARENTEMENTE SEGURO
 		conclusion = "✅ APARENTEMENTE SEGURO - Aún así, investiga";
 		nivelRiesgo = "BAJO";
 	}
@@ -252,7 +255,65 @@ function mostrarResultados(puntos, alertas) {
 		mensajeAlerta += "Alertas detectadas: " + alertas.length + "\n\n";
 		mensajeAlerta += "Revisa la consola para mas detalles.";
 	}
-    
-    //muestra el mensaje de alerta / resultado final
+
+	//muestra el mensaje de alerta / resultado final
 	alert(mensajeAlerta);
+
+	// preguntamos si quiere ver el historial o hacer otro analisis
+	mostrarOpciones();
 }
+
+// FUNCION 4 : Menú con 3 opciones
+function mostrarOpciones() {
+	console.log("\n--- Opciones ---");
+
+	let opcion = prompt(
+		"¿Qué te gustaría hacer?\n1 - Analizar otra oferta\n2 - Ver el historial\n3 - Salir\n\nEscribe el número:"
+	);
+
+	if (opcion === "1") {
+		iniciarAnalisis();
+	} else if (opcion === "2") {
+		mostrarHistorial();
+	} else if (opcion === "3") {
+		console.log(
+			"\n✓ Gracias por usar ANTI SCAM. ¡No te dejes engañar por ofertas de trabajo falsas!"
+		);
+		alert(
+			" Gracias por usar ANTI SCAM. ¡Mantén a salvo tu información y tus finanzas!"
+		);
+	} else {
+		alert("Opción no válida. Cerrando el analizador.");
+		console.log("❌ Opción no válida.");
+	}
+}
+
+// FUNCION 5 : Lista de todos los analisis
+function mostrarHistorial() {
+	console.log("\n=== HISTORIAL DE ANÁLISIS ===\n");
+
+	// verificamos si hay analisis guardados
+	if (historialAnalisis.length === 0) {
+		console.log("Aún no se ha realizado ningún análisis");
+		alert("Todavía no has hecho ningún análisis en esta sesión.");
+		mostrarOpciones(); //volvemos al menu
+		return; //salimos de la funcion
+	}
+
+	//recorremos cada analisis guardado
+	for (let i = 0; i < historialAnalisis.length; i++) {
+		let analisis = historialAnalisis[i]; //tomamos cada analisis/cada dato
+		console.log(`Análisis #${analisis.numeroAnalisis}`); // cant de analisis por sesion
+		console.log(`Fecha: ${analisis.fecha}`);
+		console.log(`Puntos de riesgo: ${analisis.puntosRiesgo}/185`);
+		console.log(`Alertas detectadas: ${analisis.alertasDetectadas.length}`);
+		console.log("---");
+	}
+
+	alert(
+		`Se han realizado ${historialAnalisis.length} análisis en esta sesión.\n\nRevisa la consola para ver los detalles completos.`
+	);
+
+    mostrarOpciones(); // Volvemos al menú
+}
+
